@@ -64,5 +64,7 @@ public class ActionChoisirForme extends AbstractAction{
 				this.panneauDessin.associerOutil(new OutilLigne());
 				break;
 		}
+		this.panneauDessin.setFormeSelectionneeOn(false);
+		this.panneauBarreOutils.activerBoutonsSelection(false);
 	}
 }

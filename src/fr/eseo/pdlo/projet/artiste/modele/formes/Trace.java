@@ -9,7 +9,7 @@ public class Trace extends Forme{
 	private ArrayList<Coordonnees> points;
 	
 	public Trace(Coordonnees pos1, Coordonnees pos2) {
-		super(0, 0, 0, 0);
+		super(pos1.getAbscisse(), pos1.getOrdonnee(), 1, 1);
 		this.points = new ArrayList<Coordonnees>();
 		this.ajouterPoint(pos1);
 		this.ajouterPoint(pos2);

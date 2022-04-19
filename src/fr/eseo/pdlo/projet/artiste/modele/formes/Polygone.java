@@ -79,9 +79,36 @@ public class Polygone extends Forme implements Remplissable {
 	
 	@Override
 	public boolean contient(Coordonnees coords) {
+		//On test si le point est à l'intérieur d'un des triangles du polygone
+		//Centre du polygone
+		Coordonnees a = new Coordonnees(this.getPosition().getAbscisse() + this.getLargeur(),
+			this.getPosition().getOrdonnee() + this.getHauteur());
+		for(int i = 0;i < this.getPoints().size()-1;i++) {
+			//Calcul des produits vectoriels
+			Coordonnees b = this.getPoints().get(i);
+			Coordonnees c = this.getPoints().get(i+1);
+			double v1 = (a.getAbscisse()-coords.getAbscisse()) * (b.getOrdonnee()-coords.getOrdonnee())
+				- (a.getOrdonnee()-coords.getOrdonnee()) * (b.getAbscisse()-coords.getAbscisse());
+			double v2 = (b.getAbscisse()-coords.getAbscisse()) * (c.getOrdonnee()-coords.getOrdonnee())
+				- (b.getOrdonnee()-coords.getOrdonnee()) * (c.getAbscisse()-coords.getAbscisse());
+			double v3 = (c.getAbscisse()-coords.getAbscisse()) * (a.getOrdonnee()-coords.getOrdonnee())
+				- (c.getOrdonnee()-coords.getOrdonnee()) * (a.getAbscisse()-coords.getAbscisse());
+			if(this.memesSignes(v1, v2, v3)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
+	private boolean memesSignes(double v1, double v2, double v3) {
+		if(v1 < 0 && v2 < 0 && v3 < 0) {
+			return true;
+		} else if(v1 > 0 && v2 > 0 && v3 > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	public ArrayList<Coordonnees> getPoints() {
 		ArrayList<Coordonnees> points = new ArrayList<Coordonnees>();
 		for(int i=0;i<this.nCotes;i++) {

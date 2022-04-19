@@ -2,12 +2,16 @@ package fr.eseo.pdlo.projet.artiste.controleur.outils;
 
 import java.awt.event.MouseEvent;
 
-import javax.swing.JOptionPane;
-
-import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionner;
 import fr.eseo.pdlo.projet.artiste.modele.Coordonnees;
+import fr.eseo.pdlo.projet.artiste.vue.ihm.PanneauBarreOutils;
 
 public class OutilSelectionForme extends Outil {
+
+	private PanneauBarreOutils panneauBarreOutils;
+
+	public OutilSelectionForme(PanneauBarreOutils panneauBarreOutils) {
+		this.panneauBarreOutils = panneauBarreOutils;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
@@ -29,8 +33,12 @@ public class OutilSelectionForme extends Outil {
 		}
 		
 		if(formeSelectionnee) {
-			JOptionPane.showMessageDialog(this.getPanneauDessin(), "SIUUUUUUUUU",
-					ActionSelectionner.NOM_ACTION, JOptionPane.INFORMATION_MESSAGE);
+			this.getPanneauDessin().setFormeSelectionneeOn(true);
+			this.getPanneauDessin().setIndexFormeSelectionnee(compteur);
+			this.panneauBarreOutils.activerBoutonsSelection(true);
+		} else {
+			this.getPanneauDessin().setFormeSelectionneeOn(false);
+			this.panneauBarreOutils.activerBoutonsSelection(false);
 		}
 	}
 }

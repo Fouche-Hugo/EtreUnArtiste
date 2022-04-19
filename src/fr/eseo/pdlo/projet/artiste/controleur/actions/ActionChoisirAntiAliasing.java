@@ -8,7 +8,7 @@ import fr.eseo.pdlo.projet.artiste.vue.ihm.PanneauDessin;
 
 public class ActionChoisirAntiAliasing implements ChangeListener {
 	
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	public static final String NOM_ACTION = "Anti aliasing";
 	private PanneauDessin panneauDessin;
 	

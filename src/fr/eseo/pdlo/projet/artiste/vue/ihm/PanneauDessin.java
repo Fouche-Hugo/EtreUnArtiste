@@ -33,9 +33,10 @@ public class PanneauDessin extends JPanel {
 	private Outil outilCourant;
 	private Color couleurCourante;
 	private float epaisseurCourante;
-	private int indexFormeSelectionnee;
-	private boolean selectionEnCours;
 	private Remplissage modeRemplissage;
+
+	private boolean formeSelectionneeOn;
+	private int indexFormeSelectionnee;
 	
 	private RenderingHints antiAliasing;
 	
@@ -56,7 +57,7 @@ public class PanneauDessin extends JPanel {
 		this.couleurCourante = Forme.COULEUR_PAR_DEFAUT;
 		this.modeRemplissage = Remplissage.AUCUNE;
 		this.indexFormeSelectionnee = 0;
-		this.selectionEnCours = false;
+		this.formeSelectionneeOn = false;
 		
 		this.antiAliasing = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 	}
@@ -84,7 +85,7 @@ public class PanneauDessin extends JPanel {
 		if(this.vueFormeOn) {
 			this.vueFormeTemp.affiche(g2D);
 		}
-		if(this.selectionEnCours) {
+		if(this.getFormeSelectionneeOn()) {
 			Forme formeSelectionnee = this.getVueFormes().get(this.getIndexFormeSelectionnee()).getForme();
 			Rectangle carre = new Rectangle(formeSelectionnee.getPosition(),
 					formeSelectionnee.getLargeur(),
@@ -177,11 +178,24 @@ public class PanneauDessin extends JPanel {
 		this.epaisseurCourante = nouvelleEpaisseur;
 	}
 	
+	public VueForme getVueFormeSelectionnee() {
+		return this.getVueFormes().get(this.getIndexFormeSelectionnee());
+	}
+
 	public int getIndexFormeSelectionnee() {
 		return this.indexFormeSelectionnee;
 	}
 	
 	public void setIndexFormeSelectionnee(int index) {
 		this.indexFormeSelectionnee = index;
+	}
+
+	public boolean getFormeSelectionneeOn() {
+		return this.formeSelectionneeOn;
+	}
+
+	public void setFormeSelectionneeOn(boolean selection) {
+		this.formeSelectionneeOn = selection;
+		this.repaint();
 	}
 }
