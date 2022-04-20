@@ -52,7 +52,7 @@ public class EtreUnArtiste {
 					try {
 						hauteur = Math.abs(Integer.parseInt(args[2]));
 					}
-					catch (Throwable e) {
+					catch(Throwable e) {
 						hauteur = 480;
 					}
 					new EtreUnArtiste(titre, largeur, hauteur);

@@ -2,6 +2,7 @@ package fr.eseo.pdlo.projet.artiste.vue.ihm;
 
 import fr.eseo.pdlo.projet.artiste.modele.formes.Ligne;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.Outil;
+import fr.eseo.pdlo.projet.artiste.modele.Coordonnees;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissage;
 import fr.eseo.pdlo.projet.artiste.modele.formes.Rectangle;
 import fr.eseo.pdlo.projet.artiste.modele.formes.Forme;
@@ -32,6 +33,7 @@ public class PanneauDessin extends JPanel {
 	private boolean vueFormeOn;
 	private Outil outilCourant;
 	private Color couleurCourante;
+	private Color couleurSecondaireCourante;
 	private float epaisseurCourante;
 	private Remplissage modeRemplissage;
 
@@ -55,6 +57,7 @@ public class PanneauDessin extends JPanel {
 		this.outilCourant = null;
 		this.epaisseurCourante = PanneauDessin.EPAISSEUR_PAR_DEFAUT;
 		this.couleurCourante = Forme.COULEUR_PAR_DEFAUT;
+		this.couleurSecondaireCourante = Forme.COULEUR_PAR_DEFAUT;
 		this.modeRemplissage = Remplissage.AUCUNE;
 		this.indexFormeSelectionnee = 0;
 		this.formeSelectionneeOn = false;
@@ -87,12 +90,14 @@ public class PanneauDessin extends JPanel {
 		}
 		if(this.getFormeSelectionneeOn()) {
 			Forme formeSelectionnee = this.getVueFormes().get(this.getIndexFormeSelectionnee()).getForme();
-			Rectangle carre = new Rectangle(formeSelectionnee.getPosition(),
-					formeSelectionnee.getLargeur(),
-					formeSelectionnee.getHauteur());
-			carre.setCouleur(new Color(0, 0, 0, 35));
-			VueRectangle carreSelection = new VueRectangle(carre);
-			carreSelection.affiche(g2D);
+			Coordonnees coordsInit = new Coordonnees(formeSelectionnee.getCadreMinX(), formeSelectionnee.getCadreMinY());
+			double largeur = formeSelectionnee.getCadreMaxX() - formeSelectionnee.getCadreMinX();
+			double hauteur = formeSelectionnee.getCadreMaxY() - formeSelectionnee.getCadreMinY();
+			Rectangle rect = new Rectangle(coordsInit, largeur, hauteur);
+			rect.setCouleur(new Color(0, 0, 0, 35));
+			rect.setAngle(formeSelectionnee.getAngle());
+			VueRectangle rectSelection = new VueRectangle(rect);
+			rectSelection.affiche(g2D);
 		}
 		
 		g2D.dispose();
@@ -131,6 +136,14 @@ public class PanneauDessin extends JPanel {
 	
 	public void setCouleurCourante(Color couleur) {
 		this.couleurCourante = couleur;
+	}
+
+	public Color getCouleurSecondaireCourante() {
+		return this.couleurSecondaireCourante;
+	}
+	
+	public void setCouleurSecondaireCourante(Color couleur) {
+		this.couleurSecondaireCourante = couleur;
 	}
 	
 	public Remplissage getModeRemplissageCourant() {

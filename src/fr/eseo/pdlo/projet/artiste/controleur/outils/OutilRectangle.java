@@ -13,6 +13,7 @@ public class OutilRectangle extends OutilForme{
 		if(this.getDebut().equals(this.getFin())) {
 			Rectangle rectangle = new Rectangle(this.getDebut());
 			rectangle.setCouleur(this.getPanneauDessin().getCouleurCourante());
+			rectangle.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 			rectangle.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 			rectangle.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 			return new VueRectangle(rectangle);
@@ -22,6 +23,7 @@ public class OutilRectangle extends OutilForme{
 				Math.abs(this.getFin().getAbscisse() - this.getDebut().getAbscisse()),
 				Math.abs(this.getFin().getOrdonnee() - this.getDebut().getOrdonnee()));
 		rectangle.setCouleur(this.getPanneauDessin().getCouleurCourante());
+		rectangle.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 		rectangle.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 		rectangle.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 		return new VueRectangle(rectangle);

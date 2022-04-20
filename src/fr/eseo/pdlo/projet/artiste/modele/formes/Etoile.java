@@ -8,27 +8,27 @@ import fr.eseo.pdlo.projet.artiste.modele.Coordonnees;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissable;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissage;
 
-public class Polygone extends Forme implements Remplissable {
-	
-	public static final int NB_COTES_PAR_DEFAUT = 6;
+public class Etoile extends Forme implements Remplissable {
+    
+    public static final int NB_COTES_PAR_DEFAUT = 6;
 	private Remplissage modeRemplissage;
-	private int nCotes;
+	private int nBranches;
 	
-	public Polygone(Coordonnees coords, double largeur, int n) {
+	public Etoile(Coordonnees coords, double largeur, int n) {
 		super(coords, largeur, largeur);
-		this.nCotes = n;
+		this.nBranches = n;
 		this.modeRemplissage = Remplissage.AUCUNE;
 	}
 	
-	public Polygone(Coordonnees coords) {
-		this(coords, Forme.LARGEUR_PAR_DEFAUT, Polygone.NB_COTES_PAR_DEFAUT);
+	public Etoile(Coordonnees coords) {
+		this(coords, Forme.LARGEUR_PAR_DEFAUT, Etoile.NB_COTES_PAR_DEFAUT);
 	}
 	
-	public Polygone(double largeur) {
-		this(new Coordonnees(), largeur, Polygone.NB_COTES_PAR_DEFAUT);
+	public Etoile(double largeur) {
+		this(new Coordonnees(), largeur, Etoile.NB_COTES_PAR_DEFAUT);
 	}
 	
-	public Polygone() {
+	public Etoile() {
 		this(Forme.LARGEUR_PAR_DEFAUT);
 	}
 	
@@ -43,12 +43,12 @@ public class Polygone extends Forme implements Remplissable {
 		this.setLargeur(diametre);
 	}
 	
-	public int getNombreCotes() {
-		return this.nCotes;
+	public int getNombreBranches() {
+		return this.nBranches;
 	}
 	
-	public void setNombreCotes(int nbCotes) {
-		this.nCotes = nbCotes;
+	public void setNombreBranches(int nbBranches) {
+		this.nBranches = nbBranches;
 	}
 	
 	public Remplissage getRemplissage() {
@@ -98,7 +98,7 @@ public class Polygone extends Forme implements Remplissable {
 	
 	@Override
 	public boolean contient(Coordonnees coords) {
-		//On test si le point est à l'intérieur d'un des triangles du polygone
+		//On test si le point est à l'intérieur d'un des triangles du Etoile
 
 		double centreX = this.getPosition().getAbscisse() + this.getLargeur() / 2;
 		double centreY = this.getPosition().getOrdonnee() + this.getHauteur() / 2;
@@ -146,13 +146,20 @@ public class Polygone extends Forme implements Remplissable {
 
 	public ArrayList<Coordonnees> getPoints() {
 		ArrayList<Coordonnees> points = new ArrayList<Coordonnees>();
-		for(int i=0;i<this.nCotes;i++) {
-			double angle = i * (2 * Math.PI) / this.getNombreCotes();
+		for(int i=0;i<this.getNombreBranches();i++) {
+			double angle = i * (2 * Math.PI) / this.getNombreBranches();
 			double relativeAbscisse = Math.cos(angle) * this.getLargeur() / 2;
 			double relativeOrdonnee = Math.sin(angle) * this.getLargeur() / 2;
 			
 			points.add(new Coordonnees(this.getAbscisse() + (this.getLargeur() / 2) + relativeAbscisse,
 					this.getOrdonnee() + (this.getLargeur() / 2) + relativeOrdonnee));
+
+            double angleEtDemi = (i + 0.5) * (2 * Math.PI) / this.getNombreBranches();
+            double relativeAbscisseEtDemi = Math.cos(angleEtDemi) * ((this.getLargeur() / 2) / ((1 + Math.sqrt(5) / 2)));
+			double relativeOrdonneeEtDemi = Math.sin(angleEtDemi) * ((this.getLargeur() / 2) / ((1 + Math.sqrt(5) / 2)));
+
+            points.add(new Coordonnees(this.getAbscisse() + (this.getLargeur() / 2) + relativeAbscisseEtDemi,
+					this.getOrdonnee() + (this.getLargeur() / 2) + relativeOrdonneeEtDemi));
 		}
 		return points;
 	}
@@ -165,7 +172,7 @@ public class Polygone extends Forme implements Remplissable {
 		df.setGroupingSize(8);
 		String msg = "[" + super.getClass().getSimpleName() + " " + this.getRemplissage().getMode() 
 				+ "] : pos " + this.getPosition().toString() + " largeur " + df.format(this.getLargeur());
-		msg += " nombre de côtés : " + this.getNombreCotes();
+		msg += " nombre de branches : " + this.getNombreBranches();
 		msg += " périmètre : " + df.format(this.perimetre()) + " aire : " + df.format(this.aire());
 		if(Locale.getDefault().getLanguage().equals("fr")) {
 			msg += " couleur = R" + this.getCouleur().getRed() + ",V" + this.getCouleur().getGreen() + ",B"

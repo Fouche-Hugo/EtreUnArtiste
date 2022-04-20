@@ -74,14 +74,25 @@ public class Ellipse extends Forme implements Remplissable{
 	
 	@Override
 	public boolean contient(Coordonnees coords) {
+		//Calcul des coordonnées du point dans le repère de l'ellipse
+		//L'ellipse est en rotation d'un certain angle par rapport au repère
+		//Autrement dit, le repère est en rotation de -angle par rapport à l'ellipse
+
 		//équation de l'ellipse ((x-a)/X²)² + ((y-b)/Y)² = 1
 		double a = this.getPosition().getAbscisse() + this.getLargeur() / 2;
 		double b = this.getPosition().getOrdonnee() + this.getHauteur() / 2;
 		double delX =  this.getLargeur() / 2;
 		double delY = this.getHauteur() / 2;
+
+		double x = (coords.getAbscisse() - a) * Math.cos(-this.getAngle())
+			- (coords.getOrdonnee() - b) * Math.sin(-this.getAngle());
+		double y = (coords.getAbscisse() - a) * Math.sin(-this.getAngle())
+			+ (coords.getOrdonnee() - b) * Math.cos(-this.getAngle());
+
+		Coordonnees coordsRepere = new Coordonnees(x, y);
 		
-		double equation = Math.pow((coords.getAbscisse()-a) / delX, 2)
-				+ Math.pow((coords.getOrdonnee()-b) / delY, 2);
+		double equation = Math.pow(coordsRepere.getAbscisse() / delX, 2)
+				+ Math.pow(coordsRepere.getOrdonnee() / delY, 2);
 		if(equation <= 1)
 			return true;
 		return false;

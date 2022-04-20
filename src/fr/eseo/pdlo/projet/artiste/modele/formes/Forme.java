@@ -16,13 +16,17 @@ public abstract class Forme implements Coloriable{
 	private double largeur;
 	private double hauteur;
 	private Color couleur;
+	private Color couleurSecondaire;
+	private double angle;
 	
 	public Forme(Coordonnees position, double largeur, double hauteur) {
 		this.position = position;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		this.couleur = Forme.COULEUR_PAR_DEFAUT;
+		this.couleurSecondaire = Forme.COULEUR_PAR_DEFAUT;
 		this.epaisseur = Forme.EPAISSEUR_PAR_DEFAUT;
+		this.angle = 0;
 	}
 	
 	public Forme(double x, double y, double largeur, double hauteur) {
@@ -128,6 +132,14 @@ public abstract class Forme implements Coloriable{
 	public void setCouleur(Color couleur) {
 		this.couleur = couleur;
 	}
+
+	public Color getCouleurSecondaire() {
+		return this.couleurSecondaire;
+	}
+	
+	public void setCouleurSecondaire(Color couleur) {
+		this.couleurSecondaire = couleur;
+	}
 	
 	public float getEpaisseur() {
 		return this.epaisseur;
@@ -135,6 +147,14 @@ public abstract class Forme implements Coloriable{
 	
 	public void setEpaisseur(float epaisseur) {
 		this.epaisseur = epaisseur;
+	}
+
+	public double getAngle() {
+		return this.angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 	
 	abstract public double perimetre();

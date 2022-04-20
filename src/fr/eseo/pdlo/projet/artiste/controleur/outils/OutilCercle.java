@@ -17,6 +17,7 @@ public class OutilCercle extends OutilForme {
 		if (this.getDebut().equals(this.getFin())) {
 			Cercle cercle = new Cercle(this.getDebut());
 			cercle.setCouleur(this.getPanneauDessin().getCouleurCourante());
+			cercle.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 			cercle.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 			cercle.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 			return new VueCercle(cercle);
@@ -24,6 +25,7 @@ public class OutilCercle extends OutilForme {
 		Cercle cercle = new Cercle(this.getDebut(), Math.max(this.getFin().getAbscisse() - this.getDebut().getAbscisse(),
 						this.getFin().getOrdonnee() - this.getDebut().getOrdonnee()));
 		cercle.setCouleur(this.getPanneauDessin().getCouleurCourante());
+		cercle.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 		cercle.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 		cercle.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 		return new VueCercle(cercle);

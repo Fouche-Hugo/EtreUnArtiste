@@ -3,34 +3,33 @@ package fr.eseo.pdlo.projet.artiste.controleur.outils;
 import java.awt.event.MouseEvent;
 
 import fr.eseo.pdlo.projet.artiste.modele.Coordonnees;
-import fr.eseo.pdlo.projet.artiste.modele.formes.Carre;
 import fr.eseo.pdlo.projet.artiste.modele.formes.Ligne;
-import fr.eseo.pdlo.projet.artiste.vue.formes.VueCarre;
+import fr.eseo.pdlo.projet.artiste.modele.formes.Etoile;
 import fr.eseo.pdlo.projet.artiste.vue.formes.VueForme;
+import fr.eseo.pdlo.projet.artiste.vue.formes.VueEtoile;
 
-public class OutilCarre extends OutilForme {
+public class OutilEtoile extends OutilForme {
 	
+	private int nBranches;
 	private Coordonnees coordsPremierClic;
+	
+	public OutilEtoile(int nbBranches) {
+		this.nBranches = nbBranches;
+	}
 	
 	@Override
 	protected VueForme creerVueForme() {
-		if (this.getDebut().equals(this.getFin())) {
-			Carre carre = new Carre(this.getDebut());
-			carre.setCouleur(this.getPanneauDessin().getCouleurCourante());
-			carre.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
-			carre.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
-			carre.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
-			return new VueCarre(carre);
-		}
-		Carre carre = new Carre(this.getDebut(), Math.max(this.getFin().getAbscisse() - this.getDebut().getAbscisse(),
-						this.getFin().getOrdonnee() - this.getDebut().getOrdonnee()));
-		carre.setCouleur(this.getPanneauDessin().getCouleurCourante());
-		carre.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
-		carre.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
-		carre.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
-		return new VueCarre(carre);
+		Etoile poly = new Etoile(this.getDebut(),
+				Math.max(Math.abs(this.getFin().getAbscisse() - this.getDebut().getAbscisse()),
+						Math.abs(this.getFin().getOrdonnee() - this.getDebut().getOrdonnee())),
+						this.nBranches);
+		poly.setCouleur(this.getPanneauDessin().getCouleurCourante());
+		poly.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
+		poly.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
+		poly.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
+		return new VueEtoile(poly);
 	}
-
+	
 	@Override
 	public void mousePressed(MouseEvent event) {
 		this.coordsPremierClic = new Coordonnees(event.getX(), event.getY());

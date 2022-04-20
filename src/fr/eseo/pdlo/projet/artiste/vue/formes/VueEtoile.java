@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 import fr.eseo.pdlo.projet.artiste.modele.Coordonnees;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissage;
-import fr.eseo.pdlo.projet.artiste.modele.formes.Polygone;
+import fr.eseo.pdlo.projet.artiste.modele.formes.Etoile;
 
-public class VuePolygone extends VueForme {
-	public VuePolygone(Polygone polygone) {
-		super(polygone);
+public class VueEtoile extends VueForme {
+	public VueEtoile(Etoile Etoile) {
+		super(Etoile);
 	}
 	
 	@Override
@@ -32,20 +32,20 @@ public class VuePolygone extends VueForme {
 			this.getForme().getAbscisse() + this.getForme().getLargeur() / 2,
 			this.getForme().getOrdonnee() + this.getForme().getHauteur() / 2);
 		//On faire un tableau des x et un tableau des y
-		ArrayList<Coordonnees> points = ((Polygone)this.getForme()).getPoints();
-		int nbCotes = ((Polygone)this.getForme()).getNombreCotes();
-		int xValues[] = new int[nbCotes];
-		int yValues[] = new int[nbCotes];
+		ArrayList<Coordonnees> points = ((Etoile)this.getForme()).getPoints();
+		int nbPoints = points.size();
+		int xValues[] = new int[nbPoints];
+		int yValues[] = new int[nbPoints];
 		
-		for(int i=0;i < nbCotes;i++) {
+		for(int i=0;i < nbPoints;i++) {
 			xValues[i] = (int)points.get(i).getAbscisse();
 			yValues[i] = (int)points.get(i).getOrdonnee();
 		}
 		
-		Polygon poly = new Polygon(xValues, yValues, nbCotes);
-		if(((Polygone)this.getForme()).getRemplissage() == Remplissage.UNIFORME) {
+		Polygon poly = new Polygon(xValues, yValues, nbPoints);
+		if(((Etoile)this.getForme()).getRemplissage() == Remplissage.UNIFORME) {
 			g2d.fill(poly);
-		} else if(((Polygone)this.getForme()).getRemplissage() == Remplissage.DEGRADE) {
+		} else if(((Etoile)this.getForme()).getRemplissage() == Remplissage.DEGRADE) {
 			GradientPaint gp = new GradientPaint((int)this.getForme().getPosition().getAbscisse(),
 				(int)this.getForme().getPosition().getOrdonnee(),
 				this.getForme().getCouleur(),
@@ -54,7 +54,7 @@ public class VuePolygone extends VueForme {
 				this.getForme().getCouleurSecondaire());
 			g2d.setPaint(gp);
 			g2d.fill(poly);
-		} else if(((Polygone)this.getForme()).getRemplissage() == Remplissage.PARTIEL) {
+		} else if(((Etoile)this.getForme()).getRemplissage() == Remplissage.PARTIEL) {
 			g2d.fill(poly);
 			g2d.setColor(this.getForme().getCouleurSecondaire());
 			g2d.draw(poly);

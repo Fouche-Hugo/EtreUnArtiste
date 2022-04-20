@@ -68,10 +68,33 @@ private Remplissage modeRemplissage;
 	
 	@Override
 	public boolean contient(Coordonnees coords) {
+		double a = this.getPosition().getAbscisse() + this.getLargeur() / 2;
+		double b = this.getPosition().getOrdonnee() + this.getHauteur() / 2;
+
+		double x = (coords.getAbscisse() - a) * Math.cos(-this.getAngle())
+			- (coords.getOrdonnee() - b) * Math.sin(-this.getAngle());
+		double y = (coords.getAbscisse() - a) * Math.sin(-this.getAngle())
+			+ (coords.getOrdonnee() - b) * Math.cos(-this.getAngle());
+
+		Coordonnees coordsRepere = new Coordonnees(x, y);
+
+		double xMin = - this.getLargeur() / 2;
+		double yMin = - this.getHauteur() / 2;
+
+		double xMax = this.getLargeur() / 2;
+		double yMax = this.getHauteur() / 2;
+		
+		if(coordsRepere.getAbscisse() >= xMin && coordsRepere.getAbscisse() <= xMax
+			&& coordsRepere.getOrdonnee() >= yMin && coordsRepere.getOrdonnee() <= yMax)
+			return true;
+		return false;
+		
+		/*
 		if(coords.getAbscisse() >= this.getCadreMinX() && coords.getAbscisse() <= this.getCadreMaxX()
 				&& coords.getOrdonnee() >= this.getCadreMinY() && coords.getOrdonnee() <= this.getCadreMaxY())
 			return true;
 		return false;
+		*/
 	}
 	
 	@Override

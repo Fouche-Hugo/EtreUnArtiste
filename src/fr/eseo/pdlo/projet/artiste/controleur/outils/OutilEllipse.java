@@ -13,6 +13,7 @@ public class OutilEllipse extends OutilForme{
 		if(this.getDebut().equals(this.getFin())) {
 			Ellipse ellipse = new Ellipse(this.getDebut());
 			ellipse.setCouleur(this.getPanneauDessin().getCouleurCourante());
+			ellipse.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 			ellipse.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 			ellipse.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 			return new VueEllipse(ellipse);
@@ -22,6 +23,7 @@ public class OutilEllipse extends OutilForme{
 				Math.abs(this.getFin().getAbscisse() - this.getDebut().getAbscisse()),
 				Math.abs(this.getFin().getOrdonnee() - this.getDebut().getOrdonnee()));
 		ellipse.setCouleur(this.getPanneauDessin().getCouleurCourante());
+		ellipse.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 		ellipse.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 		ellipse.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 		return new VueEllipse(ellipse);

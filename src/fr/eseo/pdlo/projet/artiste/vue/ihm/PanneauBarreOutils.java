@@ -12,15 +12,22 @@ import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
 
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChangerCouleur;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChangerCouleurSecondaire;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChangerModeRemplissage;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirAntiAliasing;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirBranchesEtoile;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirCotesPolygone;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirCouleur;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirCouleurSecondaire;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirEpaisseur;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirForme;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirModeRemplissage;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionEffacer;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionRedimension;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionForme;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionner;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionTourner;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionDeplacer;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissage;
 
@@ -28,20 +35,25 @@ public class PanneauBarreOutils extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	public static final int NB_COTES_POLYGONE_PAR_DEFAUT = 6;
+	public static final int NB_BRANCHES_ETOILE_PAR_DEFAUT = 5;
+
 	private PanneauDessin panneauDessin;
 	private int nbCotesPolygone;
+	private int nbBranchesEtoile;
 
 	private JLabel labelSelection;
 	private JToggleButton boutonDeplacer;
 	private JToggleButton boutonRedimension;
 	private JToggleButton boutonTourner;
-	private JToggleButton boutonChangerCouleur;
-	private JToggleButton boutonChangerModeRemplissage;
+	private JButton boutonChangerCouleur;
+	private JButton boutonChangerCouleurSecondaire;
+	private JButton boutonChangerModeRemplissage;
 	
 	public PanneauBarreOutils(PanneauDessin panneauDessin) {
 		super();
 		this.panneauDessin = panneauDessin;
 		this.nbCotesPolygone = PanneauBarreOutils.NB_COTES_POLYGONE_PAR_DEFAUT;
+		this.nbBranchesEtoile = PanneauBarreOutils.NB_BRANCHES_ETOILE_PAR_DEFAUT;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.initComponents();
 	}
@@ -92,6 +104,11 @@ public class PanneauBarreOutils extends JPanel{
 				ActionChoisirForme.NOM_ACTION_POLYGONE));
 		boutonPolygone.setName(ActionChoisirForme.NOM_ACTION_POLYGONE);
 		
+		//Bouton pour l'outil etoile
+		JToggleButton boutonEtoile = new JToggleButton(new ActionChoisirForme(this.panneauDessin, this,
+				ActionChoisirForme.NOM_ACTION_ETOILE));
+		boutonPolygone.setName(ActionChoisirForme.NOM_ACTION_ETOILE);
+
 		//Bouton pour l'outil selectionner (qui donne l'info d'une forme)
 		JToggleButton boutonSelectionner = new JToggleButton(new ActionSelectionner(this.panneauDessin));
 		boutonSelectionner.setName(ActionSelectionner.NOM_ACTION);
@@ -100,8 +117,6 @@ public class PanneauBarreOutils extends JPanel{
 		JToggleButton boutonSelectionForme = new JToggleButton(new ActionSelectionForme(this.panneauDessin, this));
 		boutonSelectionForme.setName(ActionSelectionForme.NOM_ACTION);
 		
-		//Boutons qui ne s'affichent que lorsqu'une forme est selectionnée
-		ButtonGroup boutonsSelectionGroupe = new ButtonGroup();
 		//Label indicateur
 		this.labelSelection = new JLabel("Selection en cours");
 		this.labelSelection.setEnabled(false);
@@ -110,31 +125,43 @@ public class PanneauBarreOutils extends JPanel{
 		this.boutonDeplacer.setName(ActionDeplacer.NOM_ACTION);
 		this.boutonDeplacer.setEnabled(false);
 		//Bouton pour la redimension
-		this.boutonRedimension = new JToggleButton();
-		this.boutonRedimension.setName("redimTemp");
+		this.boutonRedimension = new JToggleButton(new ActionRedimension(this.panneauDessin));
+		this.boutonRedimension.setName(ActionRedimension.NOM_ACTION);
 		this.boutonRedimension.setEnabled(false);
 		//Bouton pour faire tourner une forme
-		this.boutonTourner = new JToggleButton();
-		this.boutonTourner.setName("tournerTemp");
+		this.boutonTourner = new JToggleButton(new ActionTourner(this.panneauDessin));
+		this.boutonTourner.setName(ActionTourner.NOM_ACTION);
 		this.boutonTourner.setEnabled(false);
 		//Bouton pour modifier la couleur de la forme
-		this.boutonChangerCouleur = new JToggleButton();
-		this.boutonChangerCouleur.setName("changerCouleurTemp");
+		this.boutonChangerCouleur = new JButton(new ActionChangerCouleur(this.panneauDessin));
+		this.boutonChangerCouleur.setName(ActionChangerCouleur.NOM_ACTION);
 		this.boutonChangerCouleur.setEnabled(false);
+		//Bouton pour changer la couleur secondaire de la forme
+		this.boutonChangerCouleurSecondaire = new JButton(new ActionChangerCouleurSecondaire(this.panneauDessin));
+		this.boutonChangerCouleurSecondaire.setName(ActionChangerCouleurSecondaire.NOM_ACTION);
+		this.boutonChangerCouleurSecondaire.setEnabled(false);
 		//Bouton pour changer le mode de remplissage
-		this.boutonChangerModeRemplissage = new JToggleButton();
-		this.boutonChangerModeRemplissage.setName("changerRemplissageTemp");
+		this.boutonChangerModeRemplissage = new JButton(new ActionChangerModeRemplissage(this.panneauDessin));
+		this.boutonChangerModeRemplissage.setName(ActionChangerModeRemplissage.NOM_ACTION);
 		this.boutonChangerModeRemplissage.setEnabled(false);
 
+		/*
 		boutonsSelectionGroupe.add(this.boutonDeplacer);
 		boutonsSelectionGroupe.add(this.boutonRedimension);
 		boutonsSelectionGroupe.add(this.boutonTourner);
+		*/
 
 		//Bouton pour le choix de la couleur actuelle
 		ActionChoisirCouleur actionChoisirCouleur = new ActionChoisirCouleur(this.panneauDessin);
 		JButton boutonChoixCouleur = new JButton(actionChoisirCouleur);
 		boutonChoixCouleur.setName(ActionChoisirCouleur.NOM_ACTION);
 		this.add(boutonChoixCouleur);
+
+		//Bouton pour le choix de la couleur secondaire actuelle
+		ActionChoisirCouleurSecondaire actionChoisirCouleurSecondaire = new ActionChoisirCouleurSecondaire(this.panneauDessin);
+		JButton boutonChoixCouleurSecondaire = new JButton(actionChoisirCouleurSecondaire);
+		boutonChoixCouleurSecondaire.setName(ActionChoisirCouleurSecondaire.NOM_ACTION);
+		this.add(boutonChoixCouleurSecondaire);
 
 		//Groupe de boutons pour les types de remplissages
 		ButtonGroup boutonsChoixRemplissageGroupe = new ButtonGroup();
@@ -157,6 +184,18 @@ public class PanneauBarreOutils extends JPanel{
 		polygoneContainer.add(boutonPolygone);
 		polygoneContainer.add(sp);
 		polygoneContainer.setLayout(new BoxLayout(polygoneContainer, BoxLayout.X_AXIS));
+
+		//Choix du nombre de côtés pour une etoile
+		SpinnerNumberModel modelEtoile = new SpinnerNumberModel(PanneauBarreOutils.NB_BRANCHES_ETOILE_PAR_DEFAUT, 3, 18, 1);
+		JSpinner spEtoile = new JSpinner(modelEtoile);
+		spEtoile.setMaximumSize(new Dimension(50, 28));
+		
+		spEtoile.addChangeListener(new ActionChoisirBranchesEtoile(this.panneauDessin, this, boutonEtoile));
+		
+		JPanel etoileContainer = new JPanel();
+		etoileContainer.add(boutonEtoile);
+		etoileContainer.add(spEtoile);
+		etoileContainer.setLayout(new BoxLayout(etoileContainer, BoxLayout.X_AXIS));
 		
 		//Epaisseur du trait
 		JLabel labelEpaisseur = new JLabel("Epaisseur : ");
@@ -181,8 +220,12 @@ public class PanneauBarreOutils extends JPanel{
 		boutonsGroupe.add(boutonCarre);
 		boutonsGroupe.add(boutonTrace);
 		boutonsGroupe.add(boutonPolygone);
+		boutonsGroupe.add(boutonEtoile);
 		boutonsGroupe.add(boutonSelectionner);
 		boutonsGroupe.add(boutonSelectionForme);
+		boutonsGroupe.add(boutonDeplacer);
+		boutonsGroupe.add(boutonRedimension);
+		boutonsGroupe.add(boutonTourner);
 		
 		boutonsChoixRemplissageGroupe.add(boutonRemplissageAucune);
 		boutonsChoixRemplissageGroupe.add(boutonRemplissageUniforme);
@@ -194,6 +237,7 @@ public class PanneauBarreOutils extends JPanel{
 		this.add(boutonCarre);
 		this.add(boutonTrace);
 		this.add(polygoneContainer);
+		this.add(etoileContainer);
 		this.add(boutonSelectionner);
 		this.add(boutonSelectionForme);
 		this.add(boutonRemplissageAucune);
@@ -205,6 +249,7 @@ public class PanneauBarreOutils extends JPanel{
 		this.add(boutonRedimension);
 		this.add(boutonTourner);
 		this.add(boutonChangerCouleur);
+		this.add(boutonChangerCouleurSecondaire);
 		this.add(boutonChangerModeRemplissage);
 	}
 	
@@ -216,6 +261,14 @@ public class PanneauBarreOutils extends JPanel{
 		this.nbCotesPolygone = nbCotes;
 	}
 
+	public int getNbBranchesEtoile() {
+		return this.nbBranchesEtoile;
+	}
+
+	public void setNbBranchesEtoile(int nbBranches) {
+		this.nbBranchesEtoile = nbBranches;
+	}
+
 	public void activerBoutonsSelection(boolean selection) {
 		if(selection) {
 			this.labelSelection.setEnabled(true);
@@ -223,6 +276,7 @@ public class PanneauBarreOutils extends JPanel{
 			this.boutonRedimension.setEnabled(true);
 			this.boutonTourner.setEnabled(true);
 			this.boutonChangerCouleur.setEnabled(true);
+			this.boutonChangerCouleurSecondaire.setEnabled(true);
 			this.boutonChangerModeRemplissage.setEnabled(true);
 		} else {
 			this.labelSelection.setEnabled(false);
@@ -238,6 +292,9 @@ public class PanneauBarreOutils extends JPanel{
 
 			this.boutonChangerCouleur.setSelected(false);
 			this.boutonChangerCouleur.setEnabled(false);
+
+			this.boutonChangerCouleurSecondaire.setSelected(false);
+			this.boutonChangerCouleurSecondaire.setEnabled(false);
 
 			this.boutonChangerModeRemplissage.setSelected(false);
 			this.boutonChangerModeRemplissage.setEnabled(false);

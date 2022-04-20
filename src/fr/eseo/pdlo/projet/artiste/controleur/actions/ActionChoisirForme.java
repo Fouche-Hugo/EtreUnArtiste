@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilCarre;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilCercle;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilEllipse;
+import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilEtoile;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilLigne;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilPolygone;
 import fr.eseo.pdlo.projet.artiste.controleur.outils.OutilRectangle;
@@ -25,6 +26,7 @@ public class ActionChoisirForme extends AbstractAction{
 	public static final String NOM_ACTION_CARRE = "Carre";
 	public static final String NOM_ACTION_TRACE = "Trace";
 	public static final String NOM_ACTION_POLYGONE = "Polygone";
+	public static final String NOM_ACTION_ETOILE = "Etoile";
 	
 	private PanneauDessin panneauDessin;
 	private PanneauBarreOutils panneauBarreOutils;
@@ -58,6 +60,9 @@ public class ActionChoisirForme extends AbstractAction{
 				break;
 			case NOM_ACTION_POLYGONE:
 				this.panneauDessin.associerOutil(new OutilPolygone(this.panneauBarreOutils.getNbCotesPolygone()));
+				break;
+			case NOM_ACTION_ETOILE:
+				this.panneauDessin.associerOutil(new OutilEtoile(this.panneauBarreOutils.getNbBranchesEtoile()));
 				break;
 			default:
 				//En cas de défaut : outil ligne

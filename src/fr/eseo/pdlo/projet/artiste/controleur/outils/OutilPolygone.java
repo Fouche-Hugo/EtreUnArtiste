@@ -24,6 +24,7 @@ public class OutilPolygone extends OutilForme {
 						Math.abs(this.getFin().getOrdonnee() - this.getDebut().getOrdonnee())),
 						this.nCotes);
 		poly.setCouleur(this.getPanneauDessin().getCouleurCourante());
+		poly.setCouleurSecondaire(this.getPanneauDessin().getCouleurSecondaireCourante());
 		poly.setRemplissage(this.getPanneauDessin().getModeRemplissageCourant());
 		poly.setEpaisseur(this.getPanneauDessin().getEpaisseurCourante());
 		return new VuePolygone(poly);
