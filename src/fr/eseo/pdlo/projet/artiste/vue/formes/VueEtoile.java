@@ -45,6 +45,7 @@ public class VueEtoile extends VueForme {
 		Polygon poly = new Polygon(xValues, yValues, nbPoints);
 		if(((Etoile)this.getForme()).getRemplissage() == Remplissage.UNIFORME) {
 			g2d.fill(poly);
+			g2d.draw(poly);
 		} else if(((Etoile)this.getForme()).getRemplissage() == Remplissage.DEGRADE) {
 			GradientPaint gp = new GradientPaint((int)this.getForme().getPosition().getAbscisse(),
 				(int)this.getForme().getPosition().getOrdonnee(),
@@ -54,6 +55,7 @@ public class VueEtoile extends VueForme {
 				this.getForme().getCouleurSecondaire());
 			g2d.setPaint(gp);
 			g2d.fill(poly);
+			g2d.draw(poly);
 		} else if(((Etoile)this.getForme()).getRemplissage() == Remplissage.PARTIEL) {
 			g2d.fill(poly);
 			g2d.setColor(this.getForme().getCouleurSecondaire());

@@ -34,6 +34,10 @@ public class VueRectangle extends VueForme {
 				(int)this.getForme().getPosition().getOrdonnee(),
 				(int)this.getForme().getLargeur(),
 				(int)this.getForme().getHauteur());
+			g2d.drawRect((int)this.getForme().getPosition().getAbscisse(),
+				(int)this.getForme().getPosition().getOrdonnee(),
+				(int)this.getForme().getLargeur(),
+				(int)this.getForme().getHauteur());
 		} else if(((Rectangle)this.getForme()).getRemplissage() == Remplissage.DEGRADE) {
 			GradientPaint gp = new GradientPaint((int)this.getForme().getPosition().getAbscisse(),
 				(int)this.getForme().getPosition().getOrdonnee(),
@@ -43,6 +47,10 @@ public class VueRectangle extends VueForme {
 				this.getForme().getCouleurSecondaire());
 			g2d.setPaint(gp);
 			g2d.fillRect((int)this.getForme().getPosition().getAbscisse(),
+				(int)this.getForme().getPosition().getOrdonnee(),
+				(int)this.getForme().getLargeur(),
+				(int)this.getForme().getHauteur());
+			g2d.drawRect((int)this.getForme().getPosition().getAbscisse(),
 				(int)this.getForme().getPosition().getOrdonnee(),
 				(int)this.getForme().getLargeur(),
 				(int)this.getForme().getHauteur());

@@ -6,23 +6,24 @@ import javax.swing.event.ChangeListener;
 
 import fr.eseo.pdlo.projet.artiste.vue.ihm.PanneauDessin;
 
-public class ActionChoisirAntiAliasing implements ChangeListener {
+public class ActionChoisirGrille implements ChangeListener {
 	
 	//private static final long serialVersionUID = 1L;
-	public static final String NOM_ACTION = "Anti aliasing";
+	public static final String NOM_ACTION = "Afficher grille";
 	private PanneauDessin panneauDessin;
 	
-	public ActionChoisirAntiAliasing(PanneauDessin panneauDessin) {
+	public ActionChoisirGrille(PanneauDessin panneauDessin) {
 		this.panneauDessin = panneauDessin;
 	}
 	
 	@Override
 	public void stateChanged(ChangeEvent event) {
 		if(((JToggleButton)event.getSource()).isSelected()) {
-			this.panneauDessin.setEtatAntiAliasing(true);
+			this.panneauDessin.setGrilleAffichee(true);
 			this.panneauDessin.repaint();
 		} else {
-			this.panneauDessin.setEtatAntiAliasing(false);
+			this.panneauDessin.setGrilleAffichee(false);
+            this.panneauDessin.repaint();
 		}
 	}
 }

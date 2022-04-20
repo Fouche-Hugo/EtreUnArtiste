@@ -36,6 +36,7 @@ public class VueEllipse extends VueForme {
 		g2d.setColor(this.forme.getCouleur());
 		if(((Ellipse)this.getForme()).getRemplissage() == Remplissage.UNIFORME) {
 			g2d.fill(ellipse2D);
+			g2d.draw(ellipse2D);
 		} else if(((Ellipse)this.getForme()).getRemplissage() == Remplissage.DEGRADE) {
 			GradientPaint gp = new GradientPaint((int)this.getForme().getPosition().getAbscisse(),
 				(int)this.getForme().getPosition().getOrdonnee(),
@@ -45,6 +46,7 @@ public class VueEllipse extends VueForme {
 				this.getForme().getCouleurSecondaire());
 			g2d.setPaint(gp);
 			g2d.fill(ellipse2D);
+			g2d.draw(ellipse2D);
 		} else if(((Ellipse)this.getForme()).getRemplissage() == Remplissage.PARTIEL) {
 			g2d.fill(ellipse2D);
 			g2d.setColor(this.getForme().getCouleurSecondaire());

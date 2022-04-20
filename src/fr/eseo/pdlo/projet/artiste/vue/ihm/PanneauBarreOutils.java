@@ -12,6 +12,7 @@ import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
 
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionAvancerPlan;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChangerCouleur;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChangerCouleurSecondaire;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChangerModeRemplissage;
@@ -22,8 +23,12 @@ import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirCouleur;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirCouleurSecondaire;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirEpaisseur;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirForme;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirGrille;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirModeRemplissage;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionEffacer;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionMettreArrierePlan;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionMettreAvantPlan;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionReculerPlan;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionRedimension;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionForme;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionner;
@@ -48,6 +53,10 @@ public class PanneauBarreOutils extends JPanel{
 	private JButton boutonChangerCouleur;
 	private JButton boutonChangerCouleurSecondaire;
 	private JButton boutonChangerModeRemplissage;
+	private JButton boutonMettreArrierePlan;
+	private JButton boutonReculerPlan;
+	private JButton boutonAvancerPlan;
+	private JButton boutonMettreAvantPlan;
 	
 	public PanneauBarreOutils(PanneauDessin panneauDessin) {
 		super();
@@ -140,16 +149,30 @@ public class PanneauBarreOutils extends JPanel{
 		this.boutonChangerCouleurSecondaire = new JButton(new ActionChangerCouleurSecondaire(this.panneauDessin));
 		this.boutonChangerCouleurSecondaire.setName(ActionChangerCouleurSecondaire.NOM_ACTION);
 		this.boutonChangerCouleurSecondaire.setEnabled(false);
-		//Bouton pour changer le mode de remplissage
+		//Bouton pour changer le mode de remplissage de la forme
 		this.boutonChangerModeRemplissage = new JButton(new ActionChangerModeRemplissage(this.panneauDessin));
 		this.boutonChangerModeRemplissage.setName(ActionChangerModeRemplissage.NOM_ACTION);
 		this.boutonChangerModeRemplissage.setEnabled(false);
+		//JPanel qui contient les boutons pour changer l'ordre des formes
+		JPanel ordreContainer = new JPanel();
+		ordreContainer.setLayout(new BoxLayout(ordreContainer, BoxLayout.X_AXIS));
+		//Bouton pour mettre en arrière plan
+		this.boutonMettreArrierePlan = new JButton(new ActionMettreArrierePlan(this.panneauDessin));
+		boutonMettreArrierePlan.setName(ActionMettreArrierePlan.NOM_ACTION);
+		//Bouton pour reculer d'un cran la forme
+		this.boutonReculerPlan = new JButton(new ActionReculerPlan(this.panneauDessin));
+		boutonReculerPlan.setName(ActionReculerPlan.NOM_ACTION);
+		//Bouton pour avancer d'un cran la forme
+		this.boutonAvancerPlan = new JButton(new ActionAvancerPlan(this.panneauDessin));
+		boutonAvancerPlan.setName(ActionAvancerPlan.NOM_ACTION);
+		//Bouton pour mettre à l'avant plan
+		this.boutonMettreAvantPlan = new JButton(new ActionMettreAvantPlan(this.panneauDessin));
+		boutonMettreAvantPlan.setName(ActionMettreAvantPlan.NOM_ACTION);
 
-		/*
-		boutonsSelectionGroupe.add(this.boutonDeplacer);
-		boutonsSelectionGroupe.add(this.boutonRedimension);
-		boutonsSelectionGroupe.add(this.boutonTourner);
-		*/
+		ordreContainer.add(this.boutonMettreArrierePlan);
+		ordreContainer.add(this.boutonReculerPlan);
+		ordreContainer.add(this.boutonAvancerPlan);
+		ordreContainer.add(this.boutonMettreAvantPlan);
 
 		//Bouton pour le choix de la couleur actuelle
 		ActionChoisirCouleur actionChoisirCouleur = new ActionChoisirCouleur(this.panneauDessin);
@@ -212,6 +235,9 @@ public class PanneauBarreOutils extends JPanel{
 		
 		JToggleButton boutonAntiAliasing = new JToggleButton(ActionChoisirAntiAliasing.NOM_ACTION);
 		boutonAntiAliasing.addChangeListener(new ActionChoisirAntiAliasing(this.panneauDessin));
+
+		JToggleButton boutonGrille = new JToggleButton(ActionChoisirGrille.NOM_ACTION);
+		boutonGrille.addChangeListener(new ActionChoisirGrille(panneauDessin));
 		
 		boutonsGroupe.add(boutonLigne);
 		boutonsGroupe.add(boutonEllipse);
@@ -244,6 +270,7 @@ public class PanneauBarreOutils extends JPanel{
 		this.add(boutonRemplissageUniforme);
 		this.add(epaisseurContainer);
 		this.add(boutonAntiAliasing);
+		this.add(boutonGrille);
 		this.add(labelSelection);
 		this.add(boutonDeplacer);
 		this.add(boutonRedimension);
@@ -251,6 +278,7 @@ public class PanneauBarreOutils extends JPanel{
 		this.add(boutonChangerCouleur);
 		this.add(boutonChangerCouleurSecondaire);
 		this.add(boutonChangerModeRemplissage);
+		this.add(ordreContainer);
 	}
 	
 	public int getNbCotesPolygone() {
@@ -278,26 +306,22 @@ public class PanneauBarreOutils extends JPanel{
 			this.boutonChangerCouleur.setEnabled(true);
 			this.boutonChangerCouleurSecondaire.setEnabled(true);
 			this.boutonChangerModeRemplissage.setEnabled(true);
+			this.boutonMettreArrierePlan.setEnabled(true);
+			this.boutonReculerPlan.setEnabled(true);
+			this.boutonAvancerPlan.setEnabled(true);
+			this.boutonMettreAvantPlan.setEnabled(true);
 		} else {
 			this.labelSelection.setEnabled(false);
-			
-			this.boutonDeplacer.setSelected(false);
 			this.boutonDeplacer.setEnabled(false);
-			
-			this.boutonRedimension.setSelected(false);
 			this.boutonRedimension.setEnabled(false);
-
-			this.boutonTourner.setSelected(false);
 			this.boutonTourner.setEnabled(false);
-
-			this.boutonChangerCouleur.setSelected(false);
 			this.boutonChangerCouleur.setEnabled(false);
-
-			this.boutonChangerCouleurSecondaire.setSelected(false);
 			this.boutonChangerCouleurSecondaire.setEnabled(false);
-
-			this.boutonChangerModeRemplissage.setSelected(false);
 			this.boutonChangerModeRemplissage.setEnabled(false);
+			this.boutonMettreArrierePlan.setEnabled(false);
+			this.boutonReculerPlan.setEnabled(false);
+			this.boutonAvancerPlan.setEnabled(false);
+			this.boutonMettreAvantPlan.setEnabled(false);
 		}
 	}
 }

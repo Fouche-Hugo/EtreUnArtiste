@@ -39,6 +39,8 @@ public class PanneauDessin extends JPanel {
 
 	private boolean formeSelectionneeOn;
 	private int indexFormeSelectionnee;
+
+	private boolean grilleAffichee;
 	
 	private RenderingHints antiAliasing;
 	
@@ -61,6 +63,7 @@ public class PanneauDessin extends JPanel {
 		this.modeRemplissage = Remplissage.AUCUNE;
 		this.indexFormeSelectionnee = 0;
 		this.formeSelectionneeOn = false;
+		this.grilleAffichee = false;
 		
 		this.antiAliasing = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 	}
@@ -81,6 +84,29 @@ public class PanneauDessin extends JPanel {
 		
 		g2D.setRenderingHints(this.getAntiAliasing());
 		
+		if(this.getGrilleAffichee()) {
+			int largeurPanneau = this.getWidth();
+			int hauteurPanneau = this.getHeight();
+
+			int nbLignesVerticales = 1 + this.getWidth() / 50;
+			int nbLignesHorizontales = 1 + this.getHeight() / 50;
+
+			for(int i=0;i<nbLignesHorizontales;i++) {
+				Ligne ligneHoriz = new Ligne();
+				ligneHoriz.setC1(new Coordonnees(0, 50*i));
+				ligneHoriz.setC2(new Coordonnees(largeurPanneau, 50*i));
+				ligneHoriz.setCouleur(new Color(0, 0, 0, 35));
+				new VueLigne(ligneHoriz).affiche(g2D);
+			}
+			for(int j=0;j<nbLignesVerticales;j++) {
+				Ligne ligneVerti = new Ligne();
+				ligneVerti.setC1(new Coordonnees(50*j, 0));
+				ligneVerti.setC2(new Coordonnees(50*j, hauteurPanneau));
+				ligneVerti.setCouleur(new Color(0, 0, 0, 35));
+				new VueLigne(ligneVerti).affiche(g2D);
+			}
+		}
+
 		for(VueForme f : this.vueFormes) {
 			f.affiche(g2D);
 		}
@@ -210,5 +236,13 @@ public class PanneauDessin extends JPanel {
 	public void setFormeSelectionneeOn(boolean selection) {
 		this.formeSelectionneeOn = selection;
 		this.repaint();
+	}
+
+	public boolean getGrilleAffichee() {
+		return this.grilleAffichee;
+	}
+
+	public void setGrilleAffichee(boolean grilleAffichee) {
+		this.grilleAffichee = grilleAffichee;
 	}
 }

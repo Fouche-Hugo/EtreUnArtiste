@@ -45,6 +45,7 @@ public class VuePolygone extends VueForme {
 		Polygon poly = new Polygon(xValues, yValues, nbCotes);
 		if(((Polygone)this.getForme()).getRemplissage() == Remplissage.UNIFORME) {
 			g2d.fill(poly);
+			g2d.draw(poly);
 		} else if(((Polygone)this.getForme()).getRemplissage() == Remplissage.DEGRADE) {
 			GradientPaint gp = new GradientPaint((int)this.getForme().getPosition().getAbscisse(),
 				(int)this.getForme().getPosition().getOrdonnee(),
@@ -54,6 +55,7 @@ public class VuePolygone extends VueForme {
 				this.getForme().getCouleurSecondaire());
 			g2d.setPaint(gp);
 			g2d.fill(poly);
+			g2d.draw(poly);
 		} else if(((Polygone)this.getForme()).getRemplissage() == Remplissage.PARTIEL) {
 			g2d.fill(poly);
 			g2d.setColor(this.getForme().getCouleurSecondaire());
