@@ -33,12 +33,41 @@ public class OutilSelectionForme extends Outil {
 		}
 		
 		if(formeSelectionnee) {
-			this.getPanneauDessin().setFormeSelectionneeOn(true);
-			this.getPanneauDessin().setIndexFormeSelectionnee(compteur);
-			this.panneauBarreOutils.activerBoutonsSelection(true);
+			//Test si la forme est déja selectionnée
+			if(this.getPanneauDessin().getVuesFormesSelectionnees().contains(this.getPanneauDessin().getVueFormes().get(compteur))) {
+				//Alors on la retire
+				this.getPanneauDessin().getVuesFormesSelectionnees().remove(this.getPanneauDessin().getVueFormes().get(compteur));
+			} else {
+				//Sinon on l'ajoute
+				boolean placee = false;
+				short i = 0;
+				if(this.getPanneauDessin().getVuesFormesSelectionnees().size() == 0) {
+					placee = true;
+				}
+				while(!placee) {
+					if(this.getPanneauDessin().estDevant(this.getPanneauDessin().getVueFormes().get(compteur),
+						this.getPanneauDessin().getVuesFormesSelectionnees().get(i))) {
+							i++;
+					} else {
+						placee = true;
+					}
+					if(i == this.getPanneauDessin().getVuesFormesSelectionnees().size()) {
+						placee = true;
+					}
+				}
+				this.getPanneauDessin().getVuesFormesSelectionnees().add(i, this.getPanneauDessin().getVueFormes().get(compteur));
+			}
+			//Si jamais il y a au moins 1 forme de selectionnée
+			if(this.getPanneauDessin().getVuesFormesSelectionnees().size() > 0) {
+				this.panneauBarreOutils.activerBoutonsSelection(true);
+			} else {
+				this.panneauBarreOutils.activerBoutonsSelection(false);
+			}
 		} else {
-			this.getPanneauDessin().setFormeSelectionneeOn(false);
+			//Si on clic sur aucune forme, on enlève toute la sélection
+			this.getPanneauDessin().getVuesFormesSelectionnees().clear();
 			this.panneauBarreOutils.activerBoutonsSelection(false);
 		}
+		this.getPanneauDessin().repaint();
 	}
 }

@@ -26,12 +26,17 @@ import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirForme;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirGrille;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionChoisirModeRemplissage;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionEffacer;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionEnregistrerImage;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionEnregistrerProjet;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionFusionner;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionMettreArrierePlan;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionMettreAvantPlan;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionOuvrirProjet;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionReculerPlan;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionRedimension;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionForme;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSelectionner;
+import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionSeparer;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionTourner;
 import fr.eseo.pdlo.projet.artiste.controleur.actions.ActionDeplacer;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissage;
@@ -53,6 +58,8 @@ public class PanneauBarreOutils extends JPanel{
 	private JButton boutonChangerCouleur;
 	private JButton boutonChangerCouleurSecondaire;
 	private JButton boutonChangerModeRemplissage;
+	private JButton boutonFusionner;
+	private JButton boutonSeparer;
 	private JButton boutonMettreArrierePlan;
 	private JButton boutonReculerPlan;
 	private JButton boutonAvancerPlan;
@@ -153,21 +160,33 @@ public class PanneauBarreOutils extends JPanel{
 		this.boutonChangerModeRemplissage = new JButton(new ActionChangerModeRemplissage(this.panneauDessin));
 		this.boutonChangerModeRemplissage.setName(ActionChangerModeRemplissage.NOM_ACTION);
 		this.boutonChangerModeRemplissage.setEnabled(false);
+		//Bouton pour fusionner les formes
+		this.boutonFusionner = new JButton(new ActionFusionner(this.panneauDessin));
+		this.boutonFusionner.setName(ActionFusionner.NOM_ACTION);
+		this.boutonFusionner.setEnabled(false);
+		//Bouton pour séparer les formes
+		this.boutonSeparer = new JButton(new ActionSeparer(this.panneauDessin));
+		this.boutonSeparer.setName(ActionSeparer.NOM_ACTION);
+		this.boutonSeparer.setEnabled(false);
 		//JPanel qui contient les boutons pour changer l'ordre des formes
 		JPanel ordreContainer = new JPanel();
 		ordreContainer.setLayout(new BoxLayout(ordreContainer, BoxLayout.X_AXIS));
 		//Bouton pour mettre en arrière plan
 		this.boutonMettreArrierePlan = new JButton(new ActionMettreArrierePlan(this.panneauDessin));
 		boutonMettreArrierePlan.setName(ActionMettreArrierePlan.NOM_ACTION);
+		boutonMettreArrierePlan.setEnabled(false);
 		//Bouton pour reculer d'un cran la forme
 		this.boutonReculerPlan = new JButton(new ActionReculerPlan(this.panneauDessin));
 		boutonReculerPlan.setName(ActionReculerPlan.NOM_ACTION);
+		boutonReculerPlan.setEnabled(false);
 		//Bouton pour avancer d'un cran la forme
 		this.boutonAvancerPlan = new JButton(new ActionAvancerPlan(this.panneauDessin));
 		boutonAvancerPlan.setName(ActionAvancerPlan.NOM_ACTION);
+		boutonAvancerPlan.setEnabled(false);
 		//Bouton pour mettre à l'avant plan
 		this.boutonMettreAvantPlan = new JButton(new ActionMettreAvantPlan(this.panneauDessin));
 		boutonMettreAvantPlan.setName(ActionMettreAvantPlan.NOM_ACTION);
+		boutonMettreAvantPlan.setEnabled(false);
 
 		ordreContainer.add(this.boutonMettreArrierePlan);
 		ordreContainer.add(this.boutonReculerPlan);
@@ -237,7 +256,16 @@ public class PanneauBarreOutils extends JPanel{
 		boutonAntiAliasing.addChangeListener(new ActionChoisirAntiAliasing(this.panneauDessin));
 
 		JToggleButton boutonGrille = new JToggleButton(ActionChoisirGrille.NOM_ACTION);
-		boutonGrille.addChangeListener(new ActionChoisirGrille(panneauDessin));
+		boutonGrille.addChangeListener(new ActionChoisirGrille(this.panneauDessin));
+
+		JButton boutonSauvegarder = new JButton(new ActionEnregistrerImage(this.panneauDessin));
+		boutonSauvegarder.setName(ActionEnregistrerImage.NOM_ACTION);
+
+		JButton boutonEnregistrerProjet = new JButton(new ActionEnregistrerProjet(this.panneauDessin));
+		boutonEnregistrerProjet.setName(ActionEnregistrerProjet.NOM_ACTION);
+
+		JButton boutonOuvrirProjet = new JButton(new ActionOuvrirProjet(this.panneauDessin));
+		boutonOuvrirProjet.setName(ActionOuvrirProjet.NOM_ACTION);
 		
 		boutonsGroupe.add(boutonLigne);
 		boutonsGroupe.add(boutonEllipse);
@@ -271,6 +299,9 @@ public class PanneauBarreOutils extends JPanel{
 		this.add(epaisseurContainer);
 		this.add(boutonAntiAliasing);
 		this.add(boutonGrille);
+		this.add(boutonSauvegarder);
+		this.add(boutonEnregistrerProjet);
+		this.add(boutonOuvrirProjet);
 		this.add(labelSelection);
 		this.add(boutonDeplacer);
 		this.add(boutonRedimension);
@@ -278,6 +309,8 @@ public class PanneauBarreOutils extends JPanel{
 		this.add(boutonChangerCouleur);
 		this.add(boutonChangerCouleurSecondaire);
 		this.add(boutonChangerModeRemplissage);
+		this.add(boutonFusionner);
+		this.add(boutonSeparer);
 		this.add(ordreContainer);
 	}
 	
@@ -306,6 +339,8 @@ public class PanneauBarreOutils extends JPanel{
 			this.boutonChangerCouleur.setEnabled(true);
 			this.boutonChangerCouleurSecondaire.setEnabled(true);
 			this.boutonChangerModeRemplissage.setEnabled(true);
+			this.boutonFusionner.setEnabled(true);
+			this.boutonSeparer.setEnabled(true);
 			this.boutonMettreArrierePlan.setEnabled(true);
 			this.boutonReculerPlan.setEnabled(true);
 			this.boutonAvancerPlan.setEnabled(true);
@@ -318,6 +353,8 @@ public class PanneauBarreOutils extends JPanel{
 			this.boutonChangerCouleur.setEnabled(false);
 			this.boutonChangerCouleurSecondaire.setEnabled(false);
 			this.boutonChangerModeRemplissage.setEnabled(false);
+			this.boutonFusionner.setEnabled(false);
+			this.boutonSeparer.setEnabled(false);
 			this.boutonMettreArrierePlan.setEnabled(false);
 			this.boutonReculerPlan.setEnabled(false);
 			this.boutonAvancerPlan.setEnabled(false);

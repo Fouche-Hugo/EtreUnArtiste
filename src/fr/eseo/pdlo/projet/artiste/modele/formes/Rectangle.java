@@ -8,7 +8,7 @@ import fr.eseo.pdlo.projet.artiste.modele.Remplissable;
 import fr.eseo.pdlo.projet.artiste.modele.Remplissage;
 
 public class Rectangle extends Forme implements Remplissable {
-private Remplissage modeRemplissage;
+	private Remplissage modeRemplissage;
 	
 	public Rectangle(Coordonnees position, double largeur, double hauteur) {
 		super(position, largeur, hauteur);

@@ -19,6 +19,6 @@ public class ActionRedimension extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        this.panneauDessin.associerOutil(new OutilRedimension(this.panneauDessin.getVueFormeSelectionnee()));
+        this.panneauDessin.associerOutil(new OutilRedimension(this.panneauDessin.getVuesFormesSelectionnees()));
     }
 }

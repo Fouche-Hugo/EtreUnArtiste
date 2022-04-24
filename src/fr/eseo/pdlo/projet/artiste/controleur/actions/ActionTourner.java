@@ -19,6 +19,6 @@ public class ActionTourner extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        this.panneauDessin.associerOutil(new OutilTourner(this.panneauDessin.getVueFormeSelectionnee()));
+        this.panneauDessin.associerOutil(new OutilTourner(this.panneauDessin.getVuesFormesSelectionnees()));
     }
 }

@@ -19,6 +19,6 @@ public class ActionDeplacer extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        this.panneauDessin.associerOutil(new OutilDeplacer(this.panneauDessin.getVueFormeSelectionnee()));
+        this.panneauDessin.associerOutil(new OutilDeplacer(this.panneauDessin.getVuesFormesSelectionnees()));
     }
 }

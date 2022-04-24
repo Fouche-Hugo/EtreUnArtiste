@@ -20,10 +20,10 @@ public class ActionMettreAvantPlan extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-        VueForme formeSelectionnee = this.panneauDessin.getVueFormes().get(this.panneauDessin.getIndexFormeSelectionnee());
-        this.panneauDessin.getVueFormes().remove(formeSelectionnee);
-		this.panneauDessin.getVueFormes().add(formeSelectionnee);
-        this.panneauDessin.setIndexFormeSelectionnee(this.panneauDessin.getVueFormes().size()-1);
+        for(VueForme f : this.panneauDessin.getVuesFormesSelectionnees()) {
+			this.panneauDessin.getVueFormes().remove(f);
+			this.panneauDessin.getVueFormes().add(f);
+		}
         this.panneauDessin.repaint();
 	}
 }

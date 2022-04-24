@@ -20,14 +20,14 @@ public class ActionAvancerPlan extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-        VueForme formeSelectionnee = this.panneauDessin.getVueFormes().get(this.panneauDessin.getIndexFormeSelectionnee());
-        int indexFormeSelectionnee = this.panneauDessin.getIndexFormeSelectionnee();
-        if(indexFormeSelectionnee <= this.panneauDessin.getVueFormes().size()-2) {
-            this.panneauDessin.getVueFormes().remove(formeSelectionnee);
-            indexFormeSelectionnee++;
-            this.panneauDessin.getVueFormes().add(indexFormeSelectionnee, formeSelectionnee);
-            this.panneauDessin.setIndexFormeSelectionnee(indexFormeSelectionnee);
-            this.panneauDessin.repaint();
+        for(VueForme f : this.panneauDessin.getVuesFormesSelectionnees()) {
+            int index = this.panneauDessin.getVueFormes().indexOf(f);
+            if(index <= this.panneauDessin.getVueFormes().size() - 2) {
+                this.panneauDessin.getVueFormes().remove(f);
+                index++;
+                this.panneauDessin.getVueFormes().add(index, f);
+            }
         }
+        this.panneauDessin.repaint();
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.JColorChooser;
 
+import fr.eseo.pdlo.projet.artiste.vue.formes.VueForme;
 import fr.eseo.pdlo.projet.artiste.vue.ihm.PanneauDessin;
 
 public class ActionChangerCouleurSecondaire extends AbstractAction {
@@ -21,9 +22,11 @@ public class ActionChangerCouleurSecondaire extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Color couleur = JColorChooser.showDialog(panneauDessin, ActionChoisirCouleurSecondaire.NOM_ACTION,
-			this.panneauDessin.getVueFormeSelectionnee().getForme().getCouleur());
+			this.panneauDessin.getVuesFormesSelectionnees().get(0).getForme().getCouleur());
 		if(couleur != null) {
-			this.panneauDessin.getVueFormeSelectionnee().getForme().setCouleurSecondaire(couleur);
+			for(VueForme f : this.panneauDessin.getVuesFormesSelectionnees()) {
+				f.getForme().setCouleurSecondaire(couleur);
+			}
             this.panneauDessin.repaint();
 		}
 	}

@@ -23,6 +23,7 @@ public class ActionChoisirAntiAliasing implements ChangeListener {
 			this.panneauDessin.repaint();
 		} else {
 			this.panneauDessin.setEtatAntiAliasing(false);
+			this.panneauDessin.repaint();
 		}
 	}
 }

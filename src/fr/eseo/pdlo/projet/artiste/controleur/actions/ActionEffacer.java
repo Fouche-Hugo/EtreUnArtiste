@@ -24,7 +24,7 @@ public class ActionEffacer extends AbstractAction{
 		int rep = JOptionPane.showConfirmDialog(this.panneau, "Voulez-vous vraiment effacer ?",
 				ActionEffacer.NOM_ACTION, JOptionPane.OK_CANCEL_OPTION);
 		if(rep == 0) {
-			this.panneau.setFormeSelectionneeOn(false);
+			this.panneau.getVuesFormesSelectionnees().clear();
 			this.panneau.getVueFormes().clear();
 			this.panneau.repaint();
 		}
